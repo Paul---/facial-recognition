@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./ImageLinkForm.css";
 
-const ImageLinkForm = () => {
-
-  const [inputValue, changeInputValue] = useState("");
-
-  const handleInputChange = (e) => {
-    changeInputValue(e.target.value);
-  }
-
-  useEffect(() => {
-    console.log(inputValue);
-  })
+const ImageLinkForm = ({ handleInputChange, inputValue }) => {
   return (
     <div>
       <p className="f3">{`This App will detect the faces in your photos. Why not give it a try?`}</p>
