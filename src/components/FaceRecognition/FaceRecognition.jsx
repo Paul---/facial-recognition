@@ -5,7 +5,7 @@ const FaceRecognition = ({ photoUrl }) => {
   return (
     <div className="marginalize center">
       {photoUrl ? (
-        <img className="rounded center" src={photoUrl} alt="Your Selected Picture" />
+        <img className="rounded center" src={photoUrl} alt="Your Chosen Result" />
       ) : null}
     </div>
   );
