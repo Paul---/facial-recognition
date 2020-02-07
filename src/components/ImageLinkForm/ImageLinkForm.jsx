@@ -1,13 +1,28 @@
-import React from 'react';
-import './ImageLinkForm.css'
+import React, { useState, useEffect } from "react";
+import "./ImageLinkForm.css";
 
 const ImageLinkForm = () => {
+
+  const [inputValue, changeInputValue] = useState("");
+
+  const handleInputChange = (e) => {
+    changeInputValue(e.target.value);
+  }
+
+  useEffect(() => {
+    console.log(inputValue);
+  })
   return (
     <div>
       <p className="f3">{`This App will detect the faces in your photos. Why not give it a try?`}</p>
       <div classame="center">
         <div className="form center pa4 br3 shadow-5">
-          <input type="text" className="f4 pa2 w-70 center" />
+          <input
+            type="text"
+            className="f4 pa2 w-70 center"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
           <button className="w-29 grow f4 link ph3 pv2 dib white bg-light-purple">
             Detect Face
           </button>
@@ -15,6 +30,6 @@ const ImageLinkForm = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ImageLinkForm;
