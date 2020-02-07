@@ -10,7 +10,7 @@ import Particles from 'react-particles-js'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 
-const app = new Clarifai.App({ apiKey: `895bc9b9b86e488c83833652788078cd` });
+const app = new Clarifai.App({ apiKey: `` });
 
 const particleParams = {
   "particles": {
@@ -37,32 +37,43 @@ function App() {
   const [photoUrl, changePhotoUrl] = useState();
   const [photoUrlArray, changePhotoUrlArray] = useState([]);
   const [duplicateUrlError, changeDuplicateUrlError] = useState(false);
-  let errorMessage = `Please try a different url...`;
+  const [errorMessage, changeErrorMessage] = useState(`There was an error processing your request.`);
 
   const handleInputChange = (e) => {
     changeInputValue(e.target.value);
   }
 
+  const findFaces = (data) => {
+    console.log('findfaces', data)
+  }
+
+  const enterKeyPressed = (e) => {
+    if (e.key === "Enter") {
+      onSubmit();
+    }
+  }
 
   const onSubmit = () => {
-
-    if (photoUrlArray.includes(inputValue) || !inputValue) {
-      console.log(`Duplicate Url or Empty Value Entered`);
+    if (photoUrlArray.includes(inputValue.trim()) || !inputValue) {
       changeDuplicateUrlError(true);
+      changeErrorMessage(`That url has alrerady been used. Please try another.`);
       return;
     } else {
-      if (duplicateUrlError) { changeDuplicateUrlError( false) };
+      if (duplicateUrlError) { changeDuplicateUrlError(false) };
       changePhotoUrlArray([...photoUrlArray, inputValue]);
       app.models.predict(Clarifai.FACE_DETECT_MODEL,
-        inputValue).then(
+        inputValue.trim()).then(
           function (response) {
             // do something with response
             changePhotoUrl(inputValue);
-            console.log('api response good', response)
-            changeScore(score + 1);
+            findFaces(response);
+            changeScore(score + response.outputs[0].data.regions.length);
+            
           },
           function (err) {
             // there was an error
+            changeErrorMessage(`There was an error fetching your request...Please try a different url.`);
+            changeDuplicateUrlError(true);
           }
         );
     }
@@ -75,7 +86,7 @@ function App() {
       <Navigation />
       <Logo />
       <Score score={score} />
-      <ImageLinkForm inputValue={inputValue} onSubmit={onSubmit} handleInputChange={handleInputChange} />
+      <ImageLinkForm inputValue={inputValue} onSubmit={onSubmit} handleInputChange={handleInputChange} enterKeyPressed={enterKeyPressed} />
       {duplicateUrlError ? <ErrorMessage message={errorMessage} /> : null}
       <FaceRecognition photoUrl={photoUrl} />
     </div>
