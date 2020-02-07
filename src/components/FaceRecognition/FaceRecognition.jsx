@@ -1,10 +1,12 @@
-import React from 'react';
-import './FaceRecognition.css';
+import React from "react";
+import "./FaceRecognition.css";
 
 const FaceRecognition = ({ photoUrl }) => {
   return (
     <div className="marginalize center">
-      {photoUrl ? <img className="rounded center" src={photoUrl} alt="test" />: null} 
+      {photoUrl ? (
+        <img className="rounded center" src={photoUrl} alt="Your Selected Picture" />
+      ) : null}
     </div>
   );
 };

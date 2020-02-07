@@ -1,6 +1,6 @@
 import React from "react";
 
-const ErrorMessage = ({ message }) => {
+const SuccessMessage = ({ message }) => {
   return (
     <div>
       <p className="f3 b">{message}</p>
@@ -8,4 +8,4 @@ const ErrorMessage = ({ message }) => {
   );
 };
 
-export default ErrorMessage;
+export default SuccessMessage;

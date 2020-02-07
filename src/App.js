@@ -9,8 +9,9 @@ import Score from './components/Score/Score';
 import Particles from 'react-particles-js'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import SuccessMessage from './components/SuccessMessage/SuccessMessage';
 
-const app = new Clarifai.App({ apiKey: `` });
+const app = new Clarifai.App({ apiKey: `895bc9b9b86e488c83833652788078cd` });
 
 const particleParams = {
   "particles": {
@@ -38,14 +39,43 @@ function App() {
   const [photoUrlArray, changePhotoUrlArray] = useState([]);
   const [duplicateUrlError, changeDuplicateUrlError] = useState(false);
   const [errorMessage, changeErrorMessage] = useState(`There was an error processing your request.`);
+  const [searchSuccess, changeSearchSuccess] = useState(false);
+  const [addedMorePointsMessage, changePointsMessage] = useState('');
+
+  //const [box, changeBox] = useState({});
 
   const handleInputChange = (e) => {
     changeInputValue(e.target.value);
   }
+  ///////////////////////////////////////////////////////////////////////////////////////
 
-  const findFaces = (data) => {
-    console.log('findfaces', data)
-  }
+  // const showFaceBoxes = (boxInfo) => {
+  //   changeBox(boxInfo);
+  //   console.log('boxInfo', boxInfo)
+  //   setTimeout(() => {
+  //     console.log('box',box)
+  //   },1000)
+  // }
+
+  // const findFaces = (data) => {
+  //   const ClarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  //   const faceLocationsArray = data.outputs[0].data.regions;
+  //   ///////////////////////////////////////////////////////////////////////////////
+  //   // faceLocationsArray.map(item => console.log(item.region_info.bounding_box));
+
+  //   const image = async ()  => {
+  //     await document.getElementById(`facialImage`);
+  //   }
+  //   const width = Number(image.width);
+  //   const height = Number(image.height);
+
+  //   showFaceBoxes({
+  //     leftCol: ClarifaiFace.left_col * width,
+  //     topRow: ClarifaiFace.top_row * height,
+  //     rightCol: width - (ClarifaiFace.right_col * width),
+  //     bottomRow: height - (ClarifaiFace.bottom_row * height)
+  //   })
+  // }
 
   const enterKeyPressed = (e) => {
     if (e.key === "Enter") {
@@ -63,17 +93,19 @@ function App() {
       changePhotoUrlArray([...photoUrlArray, inputValue]);
       app.models.predict(Clarifai.FACE_DETECT_MODEL,
         inputValue.trim()).then(
-          function (response) {
-            // do something with response
+          response => {
+            const points = response.outputs[0].data.regions.length;
+            changePointsMessage(`Good Job. ${points} face${points >1 ? 's': ''} detected and added to your score.`);
             changePhotoUrl(inputValue);
-            findFaces(response);
             changeScore(score + response.outputs[0].data.regions.length);
-            
+            changeSearchSuccess(true);
+
           },
-          function (err) {
-            // there was an error
-            changeErrorMessage(`There was an error fetching your request...Please try a different url.`);
+          err => {
             changeDuplicateUrlError(true);
+            changeSearchSuccess(false);
+            changeErrorMessage(`There was an error fetching your request...Please try a different url.`);
+            changePhotoUrl('');
           }
         );
     }
@@ -87,7 +119,14 @@ function App() {
       <Logo />
       <Score score={score} />
       <ImageLinkForm inputValue={inputValue} onSubmit={onSubmit} handleInputChange={handleInputChange} enterKeyPressed={enterKeyPressed} />
-      {duplicateUrlError ? <ErrorMessage message={errorMessage} /> : null}
+      {searchSuccess ?
+        <SuccessMessage message={addedMorePointsMessage} />
+        : null
+      }
+      {duplicateUrlError ?
+        <ErrorMessage message={errorMessage} />
+        : null
+      }
       <FaceRecognition photoUrl={photoUrl} />
     </div>
   );

@@ -8,9 +8,9 @@ const ImageLinkForm = ({ handleInputChange, onSubmit, enterKeyPressed }) => {
   };
 
   return (
-    <div>
-      <p className="f3">{`This App will detect the faces from photos on the internet. You get one point for each face detected.`}</p>
-      <p className="f4">{`Why not give it a try?`}</p>
+    <div >
+      <p className="f3 b">{`This App will detect the faces from photos on the internet. You get one point for each face detected.`}</p>
+      <p className="f4 b">{`Why not give it a try?`}</p>
       <div classame="center">
         <div className="form center pa4 br3 shadow-5">
           <input
@@ -21,7 +21,7 @@ const ImageLinkForm = ({ handleInputChange, onSubmit, enterKeyPressed }) => {
             onKeyPress={submitFunc}
           />
           <button
-            className="w-29 grow f4 link ph3 pv2 dib white bg-light-purple"
+            className="b w-29 grow f link ph3 pv2 dib white bg-light-purple"
             onClick={onSubmit}
           >
             Detect Face
