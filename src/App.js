@@ -15,19 +15,19 @@ import Register from './components/Register/Register';
 
 
 const particleParams = {
-  "particles": {
-    "number": {
-      "value": 70
+  'particles': {
+    'number': {
+      'value': 70
     },
-    "size": {
-      "value": 2
+    'size': {
+      'value': 2
     }
   },
-  "interactivity": {
-    "events": {
-      "onhover": {
-        "enable": true,
-        "mode": "repulse"
+  'interactivity': {
+    'events': {
+      'onhover': {
+        'enable': true,
+        'mode': 'repulse'
       }
     }
   }
@@ -46,10 +46,23 @@ function App() {
   const [searchSuccess, changeSearchSuccess] = useState(false);
   const [addedMorePointsMessage, changePointsMessage] = useState('');
   const [route, changeRoute] = useState('signin');
+  const [isSignedIn, changeIsSignedIn] = useState(false);
 
 
   const handleRouteChange = (newRoute) => {
-    changeRoute(newRoute);
+    if (newRoute === 'signin' || newRoute === 'logout') {
+      changeIsSignedIn(false);
+      changeRoute('signin');
+      return;
+    } else if (newRoute === 'home' && isSignedIn) {
+      changeRoute(newRoute);
+    } else if (newRoute === 'register') {
+      changeIsSignedIn(false);
+      changeRoute(newRoute);
+      return;
+    }
+    changeIsSignedIn(true);
+    changeRoute('home');
   }
 
   const handleInputChange = (e) => {
@@ -57,7 +70,7 @@ function App() {
   }
 
   const enterKeyPressed = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       onSubmit();
     }
   }
@@ -92,9 +105,9 @@ function App() {
 
 
   return (
-    <div className="App">
-      <Particles className="particles" params={particleParams} />
-      <Navigation handleRouteChange={handleRouteChange} />
+    <div className='App'>
+      <Particles className='particles' params={particleParams} />
+      <Navigation handleRouteChange={handleRouteChange} isSignedIn={isSignedIn}/>
       {
         route === 'signin' ?
           <SignIn handleRouteChange={handleRouteChange}/> : route === 'home' ? <>
