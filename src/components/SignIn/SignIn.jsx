@@ -9,9 +9,8 @@ const SignInForm = ({ handleRouteChange }) => {
       >
         <h1>
           The backend of this game has not been connected as of yet, so feel
-          free to simply click the 'Sign In' button to play the game.
+          free to simply click the 'Sign In' button to play the game. Have fun!
         </h1>
-        <h2 className=""> Enjoy!</h2>
       </article>
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
         <main className="pa4 black-80">
