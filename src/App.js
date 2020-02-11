@@ -105,10 +105,10 @@ function App() {
 
   // fetch initial data
   useEffect(() => {
-    fetch(`http://localhost:3000`).then(res => res.json()).then(console.log);
+    fetch(`http://localhost:3000`).then(res => res.json()).then(res=>console.log(`Data fetched`, res));
   }, []);
   
-  
+
 
 
   return (
