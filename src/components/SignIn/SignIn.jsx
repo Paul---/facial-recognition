@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SignInForm = ({ handleRouteChange }) => {
+
+  const [email, changeEmail] = useState('');
+  const [password, changePassword] = useState('');
+
+  const onEmailChange = (e) => {
+    changeEmail(e.target.value);
+  }
+  
+  const onPasswordChange = (e) => {
+    changePassword(e.target.value);
+  }
+
+  const onSubmit = () => {
+    console.log('state', email );
+    console.log("password", password);
+    handleRouteChange("home");
+  }
+
   return (
     <>
       <article
@@ -23,6 +41,7 @@ const SignInForm = ({ handleRouteChange }) => {
                 </label>
                 <input
                   className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  onChange={onEmailChange}
                   type="email"
                   name="email-address"
                   id="email-address"
@@ -34,6 +53,7 @@ const SignInForm = ({ handleRouteChange }) => {
                 </label>
                 <input
                   className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  onChange={onPasswordChange}
                   type="password"
                   name="password"
                   id="password"
@@ -42,14 +62,14 @@ const SignInForm = ({ handleRouteChange }) => {
             </fieldset>
             <div className="">
               <input
-                onClick={() => handleRouteChange("home")}
+                onClick={onSubmit}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Sign in"
               />
             </div>
             <div className="lh-copy mt3">
-               <input
+              <input
                 onClick={() => handleRouteChange("register")}
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
