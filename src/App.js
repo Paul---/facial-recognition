@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import 'tachyons';
 import Clarifai from 'clarifai';
@@ -102,6 +102,13 @@ function App() {
         );
     }
   }
+
+  // fetch initial data
+  useEffect(() => {
+    fetch(`http://localhost:3000`).then(res => res.json()).then(console.log);
+  }, []);
+  
+  
 
 
   return (
