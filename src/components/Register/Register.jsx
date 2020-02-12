@@ -24,7 +24,7 @@ const Register = ({ handleRouteChange }) => {
       body: JSON.stringify({ password, email, name })
     })
       .then(res => res.json())
-      .then(res => console.log(res), handleRouteChange("signin"));
+      .then(res => handleRouteChange("signin"));
   };
 
   return (

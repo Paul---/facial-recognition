@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 
-const SignInForm = ({ handleRouteChange }) => {
+const SignInForm = ({ handleRouteChange,  loadUserData }) => {
+  const [email, changeEmail] = useState("");
+  const [password, changePassword] = useState("");
 
-  const [email, changeEmail] = useState('');
-  const [password, changePassword] = useState('');
-
-  const onEmailChange = (e) => {
+  const onEmailChange = e => {
     changeEmail(e.target.value);
-  }
-  
-  const onPasswordChange = (e) => {
+  };
+
+  const onPasswordChange = e => {
     changePassword(e.target.value);
-  }
+  };
 
   const onSubmit = () => {
-    fetch(`http://localhost:3000/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password, email }) })
+    fetch(`http://localhost:3000/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password, email })
+    })
       .then(res => res.json())
-      .then(res => res === `Success!` ? handleRouteChange("home") : null);
-  }
+      .then(userData => {
+        if (userData !== `There was an error loggin in.`) {
+          loadUserData(userData);
+          handleRouteChange("home");
+        }
+      });
+  };
 
   return (
     <>
@@ -54,6 +62,11 @@ const SignInForm = ({ handleRouteChange }) => {
                 <input
                   className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                   onChange={onPasswordChange}
+                  onKeyPress={e => {
+                    if (e.key === "Enter") {
+                      onSubmit(e);
+                    }
+                  }}
                   type="password"
                   name="password"
                   id="password"
