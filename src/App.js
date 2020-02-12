@@ -77,10 +77,6 @@ function App() {
     changeSearchSuccess(false);
   }
 
-  useEffect(() => {
-    console.log('user after singin', user);
-  }, [user]);
-
 
   // program functions section
   const handleRouteChange = (newRoute) => {
@@ -114,7 +110,7 @@ function App() {
       onSubmitUrl();
     }
   }
-  /////////////////////////////////////////////////////////////////////////////////////////
+
   const submitUrlPointsToServer = (points) => {
     const { email } = user;
     fetch(`http://localhost:3000/addPoints`, {
