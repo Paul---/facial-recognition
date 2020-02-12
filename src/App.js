@@ -1,4 +1,4 @@
-import React, { useState,  useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import 'tachyons';
@@ -64,13 +64,19 @@ function App() {
     changeName('');
   }
 
-  const loadUserData =  (data) => {
-     changeUser(data);
-     changeName(data.name);
-     changePhotoUrlArray(data.photoUrlArray || []);
-     changeScore(data.entries);
+  const loadUserData = (data) => {
+    changeUser(data);
+    changeName(data.name);
+    changePhotoUrlArray(data.photoUrlArray || []);
+    changeScore(data.entries);
 
   }
+
+  const clearMessages = () => {
+    changeDuplicateUrlError(false);
+    changeSearchSuccess(false);
+  }
+
   useEffect(() => {
     console.log('user after singin', user);
   }, [user]);
@@ -82,18 +88,21 @@ function App() {
       changeIsSignedIn(false);
       resetUserInfo();
       changeRoute('signin');
+      clearMessages();
       return;
     } else if (newRoute === 'home' && isSignedIn) {
-      changeRoute(newRoute);
+      // successful signin
       changeScore(user.entries);
+      clearMessages();
+      return;
     } else if (newRoute === 'register') {
       changeIsSignedIn(false);
       changeUser({});
       changeRoute(newRoute);
       return;
     }
-    changeIsSignedIn(true);
     changeRoute('home');
+    changeIsSignedIn(true);
   }
 
   const handleInputChange = (e) => {
