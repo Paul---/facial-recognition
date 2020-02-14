@@ -15,6 +15,8 @@ import SuccessMessage from './components/SuccessMessage/SuccessMessage';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
+const baseUrl =`https://young-brushlands-14538.herokuapp.com/`
+
 function App() {
 
   // state hooks
@@ -116,7 +118,7 @@ function App() {
 
   const makeClarifaiCallAddPoints = async () => {
     const { email } = user;
-    const response = await fetch(`http://localhost:3000/addPoints`, {
+    const response = await fetch(`${baseUrl}addPoints`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, photoUrlArray, inputValue })

@@ -4,6 +4,9 @@ const Register = ({ handleRouteChange }) => {
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
   const [name, changeName] = useState("");
+  
+  const baseUrl = `https://young-brushlands-14538.herokuapp.com/`;
+
 
   const onEmailChange = e => {
     changeEmail(e.target.value);
@@ -18,7 +21,7 @@ const Register = ({ handleRouteChange }) => {
   };
 
   const onSubmit = () => {
-    fetch(`http://localhost:3000/register`, {
+    fetch(`${baseUrl}register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password, email, name })
