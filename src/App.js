@@ -88,10 +88,10 @@ function App() {
   }
 
   const onSubmitUrl = () => {
-    if (photoUrlArray.includes(inputValue.trim()) || !inputValue) {
+    if (photoUrlArray.includes(inputValue.trim()) || !inputValue || inputValue.trim().includes(' ') || !inputValue.includes('http')) {
       changeDuplicateUrlError(true);
       changeSearchSuccess(false);
-      changeErrorMessage(`That url has alrerady been used. Please try another.`);
+      changeErrorMessage(`That url has already been used or is an invalid url. Please try another.`);
       return;
     } else {
       if (duplicateUrlError) {
@@ -106,7 +106,6 @@ function App() {
           changePointsMessage(`Good Job. ${points} face${points > 1 ? 's' : ''} detected and added to your score.`);
         })
         .catch(e => {
-          console.log(`There was an error`)
           changeDuplicateUrlError(true);
           changeSearchSuccess(false);
           changeErrorMessage(`There was an error fetching your request...Please try a different url.`);
@@ -123,9 +122,16 @@ function App() {
       body: JSON.stringify({ email, photoUrlArray, inputValue })
     })
       .then(res => res.json(res))
-      .catch(e => console.log(`There was an error`));
-    console.log('144 response', response)
-    return response;
+      .catch(e => {
+        changeSearchSuccess(false);
+      });
+
+    if (response !== `There Was an Error`) {
+      return response;
+    } else {
+      changeSearchSuccess(false);
+      return;
+    }
   }
 
   return (
