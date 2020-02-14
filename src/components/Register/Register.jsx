@@ -13,9 +13,9 @@ const Register = ({ handleRouteChange }) => {
     changePassword(e.target.value);
   };
 
-  const onNameChange = (e) => {
+  const onNameChange = e => {
     changeName(e.target.value);
-  }
+  };
 
   const onSubmit = () => {
     fetch(`http://localhost:3000/register`, {
@@ -23,8 +23,9 @@ const Register = ({ handleRouteChange }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password, email, name })
     })
-      .then(res => res.json())
-      .then(res => handleRouteChange("signin"));
+      .then(response => response.json())
+      .then(handleRouteChange("signin"))
+      .catch(e => console.log(e));
   };
 
   return (

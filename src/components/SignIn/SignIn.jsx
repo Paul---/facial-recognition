@@ -20,7 +20,7 @@ const SignInForm = ({ handleRouteChange,  loadUserData }) => {
     })
       .then(res => res.json())
       .then(userData => {
-        if (userData !== `There was an error loggin in.`) {
+        if (userData !== `Error Logging In`) {
           loadUserData(userData);
           handleRouteChange("home");
         }
@@ -29,16 +29,10 @@ const SignInForm = ({ handleRouteChange,  loadUserData }) => {
 
   return (
     <>
-      <article
-        style={{ maxWidth: "1000px", width: "90%" }}
-        className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5"
-      >
-        <h1>
-          The backend of this game has not been connected as of yet, so feel
-          free to simply click the 'Sign In' button to play the game. Have fun!
-        </h1>
-      </article>
-      <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
+      <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-200-l mw6 center shadow-5">
+        <h1>Welcome to My Facial Recognition Game</h1>
+</article>
+       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
         <main className="pa4 black-80">
           <div className="measure ">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import 'tachyons';
-import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
+import particleData from './particleData';
 
 import Navigation from './components/Navigation/Navigation';
 import Logo from './components/Logo/Logo';
@@ -14,28 +14,6 @@ import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import SuccessMessage from './components/SuccessMessage/SuccessMessage';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
-
-
-const particleParams = {
-  'particles': {
-    'number': {
-      'value': 70
-    },
-    'size': {
-      'value': 2
-    }
-  },
-  'interactivity': {
-    'events': {
-      'onhover': {
-        'enable': true,
-        'mode': 'repulse'
-      }
-    }
-  }
-};
-
-const app = new Clarifai.App({ apiKey: `895bc9b9b86e488c83833652788078cd` });
 
 function App() {
 
@@ -68,15 +46,13 @@ function App() {
     changeUser(data);
     changeName(data.name);
     changePhotoUrlArray(data.photoUrlArray || []);
-    changeScore(data.entries);
-
+    changeScore(Number(data.entries));
   }
 
   const clearMessages = () => {
     changeDuplicateUrlError(false);
     changeSearchSuccess(false);
   }
-
 
   // program functions section
   const handleRouteChange = (newRoute) => {
@@ -88,7 +64,7 @@ function App() {
       return;
     } else if (newRoute === 'home' && isSignedIn) {
       // successful signin
-      changeScore(user.entries);
+      changeScore(Number(user.entries));
       clearMessages();
       return;
     } else if (newRoute === 'register') {
@@ -111,47 +87,50 @@ function App() {
     }
   }
 
-  const submitUrlPointsToServer = (points) => {
-    const { email } = user;
-    fetch(`http://localhost:3000/addPoints`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ points, email, inputValue })
-    })
-  }
-
   const onSubmitUrl = () => {
     if (photoUrlArray.includes(inputValue.trim()) || !inputValue) {
       changeDuplicateUrlError(true);
+      changeSearchSuccess(false);
       changeErrorMessage(`That url has alrerady been used. Please try another.`);
       return;
     } else {
-      if (duplicateUrlError) { changeDuplicateUrlError(false) };
+      if (duplicateUrlError) {
+        changeDuplicateUrlError(false);
+      };
       changePhotoUrlArray([...photoUrlArray, inputValue]);
-      app.models.predict(Clarifai.FACE_DETECT_MODEL,
-        inputValue.trim()).then(
-          response => {
-            const points = response.outputs[0].data.regions.length;
-            changePointsMessage(`Good Job. ${points} face${points > 1 ? 's' : ''} detected and added to your score.`);
-            changePhotoUrl(inputValue);
-            changeScore(score + response.outputs[0].data.regions.length);
-            submitUrlPointsToServer(points);
-            changeSearchSuccess(true);
+      makeClarifaiCallAddPoints()
+        .then(points => {
+          changeScore(score + points);
+          changePhotoUrl(inputValue);
+          changeSearchSuccess(true);
+          changePointsMessage(`Good Job. ${points} face${points > 1 ? 's' : ''} detected and added to your score.`);
+        })
+        .catch(e => {
+          console.log(`There was an error`)
+          changeDuplicateUrlError(true);
+          changeSearchSuccess(false);
+          changeErrorMessage(`There was an error fetching your request...Please try a different url.`);
+          changePhotoUrl('');
+        })
+    };
+  }
 
-          },
-          err => {
-            changeDuplicateUrlError(true);
-            changeSearchSuccess(false);
-            changeErrorMessage(`There was an error fetching your request...Please try a different url.`);
-            changePhotoUrl('');
-          }
-        );
-    }
+  const makeClarifaiCallAddPoints = async () => {
+    const { email } = user;
+    const response = await fetch(`http://localhost:3000/addPoints`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, photoUrlArray, inputValue })
+    })
+      .then(res => res.json(res))
+      .catch(e => console.log(`There was an error`));
+    console.log('144 response', response)
+    return response;
   }
 
   return (
     <div className='App'>
-      <Particles className='particles' params={particleParams} />
+      <Particles className='particles' params={particleData.particleParams} />
       <Navigation handleRouteChange={handleRouteChange} isSignedIn={isSignedIn} />
       {
         route === 'signin' ?
@@ -162,7 +141,7 @@ function App() {
           : route === 'home' ? <>
             <div>
               <Logo />
-              <Score score={score} />
+              <Score playerScore={score} />
               <ImageLinkForm
                 inputValue={inputValue}
                 name={name}

@@ -1,10 +1,10 @@
 import React from "react";
 
 
-const Score = ({score}) => {
+const Score = ({ playerScore }) => {
   return (
     <div>
-      <div className="white f3 b">{`Current Score ${score}`}</div>
+      <div className="white f3 b">{`Current Score ${playerScore || 0}`}</div>
     </div>
   );
 };
