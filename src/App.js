@@ -15,7 +15,7 @@ import SuccessMessage from './components/SuccessMessage/SuccessMessage';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
-const baseUrl =`https://young-brushlands-14538.herokuapp.com/`
+const baseUrl = `https://young-brushlands-14538.herokuapp.com/`;
 
 function App() {
 
@@ -121,13 +121,12 @@ function App() {
     const response = await fetch(`${baseUrl}addPoints`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, photoUrlArray, inputValue })
+      body: JSON.stringify({ email, inputValue })
     })
-      .then(res => res.json(res))
+      .then(resp => resp.json())
       .catch(e => {
         changeSearchSuccess(false);
-      });
-
+    })
     if (response !== `There Was an Error`) {
       return response;
     } else {
