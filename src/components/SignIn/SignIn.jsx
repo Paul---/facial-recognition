@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import BannerMessage from "../BannerMessage/BannerMessage";
 
-const SignInForm = ({ handleRouteChange,  loadUserData }) => {
+const SignInForm = ({ handleRouteChange, loadUserData }) => {
   const [email, changeEmail] = useState("");
   const [password, changePassword] = useState("");
   const baseUrl = `https://young-brushlands-14538.herokuapp.com/`;
+  const [loginError, changeLoginError] = useState(false);
+  const [bannerMessage, changeBannerMessage] = useState(``);
 
   const onEmailChange = e => {
     changeEmail(e.target.value);
@@ -14,6 +17,11 @@ const SignInForm = ({ handleRouteChange,  loadUserData }) => {
   };
 
   const onSubmit = () => {
+    if (!email) {
+      changeBannerMessage(`Please Sign In or Register to Continue`);
+      changeLoginError(true);
+      return;
+    }
     fetch(`${baseUrl}login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -24,16 +32,20 @@ const SignInForm = ({ handleRouteChange,  loadUserData }) => {
         if (userData !== `Error Logging In`) {
           loadUserData(userData);
           handleRouteChange("home");
+          changeLoginError(false);
         }
+      })
+      .catch(e => {
+        changeBannerMessage(`Please Check Your Login Information`);
+        changeLoginError(true);
       });
   };
 
   return (
     <>
-      <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-200-l mw6 center shadow-5">
-        <h1>Welcome to My Facial Recognition Game</h1>
-</article>
-       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
+      <BannerMessage message={`Welcome to My Facial Recognition Game`} />
+      {loginError ? <BannerMessage message={bannerMessage} /> : null}
+      <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
         <main className="pa4 black-80">
           <div className="measure ">
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
