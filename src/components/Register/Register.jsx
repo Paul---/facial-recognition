@@ -31,6 +31,10 @@ const Register = ({ handleRouteChange }) => {
       .catch(e => console.log(e));
   };
 
+  const onCancel = () => {
+    handleRouteChange("signin");
+  }
+
   return (
     <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
       <main className="pa4 black-80">
@@ -80,6 +84,14 @@ const Register = ({ handleRouteChange }) => {
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
               type="submit"
               value="Register"
+            />
+          </div>
+          <div className="mv2 w-100">
+            <input
+              onClick={onCancel}
+              className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+              type="submit"
+              value="Cancel"
             />
           </div>
         </div>

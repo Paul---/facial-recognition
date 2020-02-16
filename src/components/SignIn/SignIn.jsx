@@ -6,7 +6,7 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
   const [password, changePassword] = useState("");
   const baseUrl = `https://young-brushlands-14538.herokuapp.com/`;
   const [loginError, changeLoginError] = useState(false);
-  const [bannerMessage, changeBannerMessage] = useState(``);
+  const [wrongCredentials, changeWrongCredentials] = useState(false);
 
   const onEmailChange = e => {
     changeEmail(e.target.value);
@@ -18,8 +18,8 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
 
   const onSubmit = () => {
     if (!email) {
-      changeBannerMessage(`Please Sign In or Register to Continue`);
       changeLoginError(true);
+      changeWrongCredentials(false);
       return;
     }
     fetch(`${baseUrl}login`, {
@@ -36,15 +36,23 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
         }
       })
       .catch(e => {
-        changeBannerMessage(`Please Check Your Login Information`);
         changeLoginError(true);
       });
+    setTimeout(() => {
+      changeLoginError(false);
+      changeWrongCredentials(true);
+    }, 2000);
   };
 
   return (
     <>
       <BannerMessage message={`Welcome to My Facial Recognition Game`} />
-      {loginError ? <BannerMessage message={bannerMessage} /> : null}
+      {loginError ? (
+        <BannerMessage message={`Please Sign In or Register to Continue`} />
+      ) : null}
+      {wrongCredentials ? (
+        <BannerMessage message={`Please Check Your Login Credentials`} />
+      ) : null}
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
         <main className="pa4 black-80">
           <div className="measure ">
