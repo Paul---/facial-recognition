@@ -17,7 +17,7 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
   };
 
   const onSubmit = () => {
-    if (!email) {
+    if (!email || !password || !email.includes("@")) {
       changeLoginError(true);
       changeWrongCredentials(false);
       return;
@@ -48,7 +48,7 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
     <>
       <BannerMessage message={`Welcome to My Facial Recognition Game`} />
       {loginError ? (
-        <BannerMessage message={`Please Sign In or Register to Continue`} />
+        <BannerMessage message={`Please Check Credentials or Register to Continue`} />
       ) : null}
       {wrongCredentials ? (
         <BannerMessage message={`Please Check Your Login Credentials`} />

@@ -44,7 +44,7 @@ const Register = ({ handleRouteChange }) => {
   return (
     <>
       {registrationErr ? (
-        <BannerMessage message={`Please Enter Valid Information`} />
+        <BannerMessage message={`Please Enter a Valid Email & Password`} />
       ) : null}
       <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center shadow-5">
         <main className="pa4 black-80">
