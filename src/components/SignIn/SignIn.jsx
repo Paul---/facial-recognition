@@ -48,7 +48,9 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
     <>
       <BannerMessage message={`Welcome to My Facial Recognition Game`} />
       {loginError ? (
-        <BannerMessage message={`Please Check Credentials or Register to Continue`} />
+        <BannerMessage
+          message={`Please Check Credentials or Register to Continue`}
+        />
       ) : null}
       {wrongCredentials ? (
         <BannerMessage message={`Please Check Your Login Credentials`} />
