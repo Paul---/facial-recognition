@@ -88,10 +88,10 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
                 />
               </div>
             </fieldset>
-            <div className="">
+            <div className="lh-copy mt3">
               <input
                 onClick={onSubmit}
-                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib w4"
                 type="submit"
                 value="Sign in"
               />
@@ -99,7 +99,7 @@ const SignInForm = ({ handleRouteChange, loadUserData }) => {
             <div className="lh-copy mt3">
               <input
                 onClick={() => handleRouteChange("register")}
-                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib w4"
                 type="submit"
                 value="Register"
               />
