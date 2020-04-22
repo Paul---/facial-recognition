@@ -4,13 +4,13 @@ This is a React project built to demonstrate comprehension of fundamental Reactj
 
 There is also a Node/Express backend that connects the game to a PostgreSQL database used for login, registration and score tracking.
 
-You can see the source code for the back end here:[https://paul---.github.io/facial-recognition/](https://paul---.github.io/facial-recognition/)
+You can see the source code for the back end here:[https://github.com/Paul---/facial-recognition-backend](https://github.com/Paul---/facial-recognition-backend)
 
 You will be able to register for your own profile and keep track of all the faces that are found in the image urls pasted into the game seach bar.
 
 See how high you can score!
 
-Check out the live version here: [https://github.com/Paul---/facial-recognition-backend](https://github.com/Paul---/facial-recognition-backend)
+Check out the live version here: [https://paul---.github.io/facial-recognition/](https://paul---.github.io/facial-recognition/)
 
 This project was also bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
